@@ -1,0 +1,22 @@
+{
+  "name": "my-cli",
+  "version": "1.0.0",
+  "description": "极简前端脚手架",
+  "main": "bin/index.js",
+  "bin": {
+    "my-cli": "./bin/index.js"
+  },
+  "files": [
+    "bin",
+    "templates"
+  ],
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1"
+  },
+  "private": false
+}
