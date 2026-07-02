@@ -1,0 +1,12 @@
+_type: "prompt"
+input_variables: ["name", "what"]
+template: "请{name}讲一个{what}的故事"
+
+# 提示词模板类型，团队统一模板文件规范：一律带上 _type，兼容所有加载方式，避免后期切换接口出问题。
+#_type: prompt
+## 动态变量列表
+#input_variables:
+#  - name
+#  - what
+## 提示词正文
+#template: "请{name}讲一个{what}的故事"
