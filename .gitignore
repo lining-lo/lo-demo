@@ -17,3 +17,7 @@ Thumbs.db
 # 日志、临时文件
 *.log
 *.tmp
+
+# 密钥环境文件
+.env
+*.env
