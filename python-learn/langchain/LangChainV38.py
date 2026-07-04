@@ -11,7 +11,7 @@ import os
 client = MilvusClient("http://localhost:19530")
 embed_model = DashScopeEmbeddings(
     model="text-embedding-v3",
-    dashscope_api_key=os.getenv("aliQwen-api"),
+    dashscope_api_key=os.getenv("DASHSCOPE_API_KEY"),
 )
 
 # 2. 全量遍历所有数据
