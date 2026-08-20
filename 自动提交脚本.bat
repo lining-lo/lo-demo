@@ -2,13 +2,11 @@
 setlocal enabledelayedexpansion
 chcp 65001 >nul
 cd /d "%~dp0"
-
 echo.
 echo ==============================================
 echo          📚 代码一键Git提交推送工具
 echo ==============================================
 echo.
-
 echo [1/3] 📥 正在添加全部变更文件到暂存区...
 git add .
 if !errorlevel! equ 0 (
@@ -19,11 +17,12 @@ if !errorlevel! equ 0 (
     pause
     exit /b 1
 )
-
 echo.
-:: 获取 年-月-日 格式日期作为提交备注
-for /f "tokens=2 delims==" %%a in ('wmic os get localdatetime /value') do set "datetime=%%a"
+
+:: 修复wmic空行bug，正确获取日期 yyyy-MM-dd
+for /f "skip=1 tokens=1 delims=." %%a in ('wmic os get localdatetime ^| findstr "[0-9]"') do set datetime=%%a
 set "today=!datetime:~0,4!-!datetime:~4,2!-!datetime:~6,2!"
+
 echo [2/3] ✍️ 执行本地提交，提交信息：!today!
 git commit -m "!today!"
 if !errorlevel! equ 0 (
@@ -32,7 +31,6 @@ if !errorlevel! equ 0 (
     echo.
     echo ⚠️  当前无文件改动，跳过提交步骤
 )
-
 echo.
 set "branch=master"
 echo [3/3] 🚀 推送代码到远程GitHub分支：!branch!
@@ -45,11 +43,9 @@ if !errorlevel! equ 0 (
     pause
     exit /b 1
 )
-
 echo.
 echo ==============================================
 echo 🎉 全部Git操作执行完毕，按任意键关闭窗口
 echo ==============================================
 echo.
-
 pause
