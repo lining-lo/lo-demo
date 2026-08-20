@@ -17,7 +17,45 @@ Thumbs.db
 # 日志、临时文件
 *.log
 *.tmp
-
 # 密钥环境文件
 .env
 *.env
+
+# IDEA 额外生成
+*.iml
+*.iws
+out/
+build/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+gradlew
+gradlew.bat
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# 编译class
+*.class
+
+# 包输出
+*.jar
+*.war
+*.ear
+*.zip
+
+# 其他临时
+hs_err_pid*
+replay_pid*
