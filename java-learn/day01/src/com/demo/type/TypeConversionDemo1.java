@@ -1,6 +1,6 @@
-package com.demo.Variable;
+package com.demo.type;
 
-public class VariableDemo5 {
+public class TypeConversionDemo1 {
     public static void main(String[] args) {
         // 目标：记住八种基本数据类型。
         // 1、byte 字节整型

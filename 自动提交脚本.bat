@@ -19,33 +19,32 @@ if !errorlevel! equ 0 (
 )
 echo.
 
-:: 修复wmic空行bug，正确获取日期 yyyy-MM-dd
-for /f "skip=1 tokens=1 delims=." %%a in ('wmic os get localdatetime ^| findstr "[0-9]"') do set datetime=%%a
-set "today=!datetime:~0,4!-!datetime:~4,2!-!datetime:~6,2!"
-
-echo [2/3] ✍️ 执行本地提交，提交信息：!today!
-git commit -m "!today!"
+:: 使用PowerShell获取标准日期，彻底解决wmic隐藏换行bug
+for /f "delims=" %%a in ('powershell "(Get-Date).ToString('yyyy-MM-dd')"') do set today=%%a
+echo [2/3] ✍️ 正在提交代码（信息：!today! 代码更新）...
+git commit -m "!today! 代码更新"
 if !errorlevel! equ 0 (
     echo ✅ 本地提交成功！
 ) else (
     echo.
-    echo ⚠️  当前无文件改动，跳过提交步骤
+    echo ⚠️  无文件修改，无需提交
 )
 echo.
+
 set "branch=master"
-echo [3/3] 🚀 推送代码到远程GitHub分支：!branch!
+echo [3/3] 🚀 正在推送到 GitHub（分支：!branch!）...
 git push origin !branch!
 if !errorlevel! equ 0 (
-    echo ✅ 代码推送远程仓库成功！
+    echo ✅ 推送成功！
 ) else (
     echo.
-    echo ❌ 推送失败！检查网络、账号权限或分支冲突
+    echo ❌ 推送失败！请检查网络/分支/登录状态
     pause
     exit /b 1
 )
 echo.
 echo ==============================================
-echo 🎉 全部Git操作执行完毕，按任意键关闭窗口
+echo 🎉 全部操作完成！请按任意键关闭窗口~
 echo ==============================================
 echo.
 pause
