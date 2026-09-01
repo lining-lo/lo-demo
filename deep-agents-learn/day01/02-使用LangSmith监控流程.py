@@ -7,16 +7,16 @@ import os
 from typing import Literal
 from deepagents import create_deep_agent
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
 from tavily import TavilyClient
+from utils.llm_utils import get_llm_client
 
 # 加载.env文件
 load_dotenv()
 
 # LangSmith追踪配置
 os.environ.setdefault("LANGSMITH_API_KEY", os.getenv("LANSMITH_API_KEY"))
-os.environ.setdefault("LANGSMITH_TRACING", "true")
-os.environ.setdefault("LANGSMITH_PROJECT", "deep‑agents‑learn")
+# os.environ.setdefault("LANGSMITH_TRACING", "true")
+# os.environ.setdefault("LANGSMITH_PROJECT", "deep‑agents‑learn")
 
 # 创建Tavily客户端
 tavily_client = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
@@ -46,11 +46,7 @@ def internet_search(
 
 
 # 创建大模型实例
-llm = ChatOpenAI(
-    model="qwen3-vl-flash",
-    api_key=os.environ["DASHSCOPE_API_KEY"],
-    base_url="https://ws-wkqldv4i4axl75ra.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
-)
+llm = get_llm_client()
 
 # 创建深度智能体实例
 agent = create_deep_agent(
