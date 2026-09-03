@@ -5,7 +5,7 @@
 """
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
-from utils.llm_utils import get_llm_client
+from day02.utils.llm_utils import get_llm_client
 
 # 获取大模型实例
 llm = get_llm_client()

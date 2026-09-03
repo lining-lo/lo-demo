@@ -8,7 +8,7 @@ from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
 from langchain_core.tools import tool
 from tavily import TavilyClient
-from utils.llm_utils import get_llm_client
+from day02.utils.llm_utils import get_llm_client
 
 # 创建Tavily客户端对象
 tavily_client = TavilyClient(
@@ -31,7 +31,7 @@ deep_agent = create_deep_agent(
     system_prompt="你是一个高级智能助手，请根据用户的指令读写文件",
     tools=[internet_search],
     # root_dir：配置文件存储的根目录 virtual_mode：是否开启虚拟模式，如果不开启，配置的根目录将形同虚设
-    backend=FilesystemBackend(root_dir="../temp_data", virtual_mode=True),
+    backend=FilesystemBackend(root_dir="temp_data", virtual_mode=True),
 )
 
 # 执行

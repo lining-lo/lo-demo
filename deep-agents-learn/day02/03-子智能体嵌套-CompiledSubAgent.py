@@ -3,11 +3,9 @@
   @Time:2026/9/2
   @Desc:子智能体嵌套-CompiledSubAgent
 """
-import os
 from dotenv import load_dotenv
-from langchain.chat_models import init_chat_model
 from deepagents import (CompiledSubAgent, create_deep_agent)
-from utils.llm_utils import get_llm_client
+from day02.utils.llm_utils import get_llm_client
 
 # 加载.env配置
 load_dotenv()

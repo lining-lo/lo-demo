@@ -8,7 +8,7 @@ from deepagents import create_deep_agent
 from langchain_core.tools import tool
 from pydantic import BaseModel, Field
 from tavily import TavilyClient
-from utils.llm_utils import get_llm_client
+from day02.utils.llm_utils import get_llm_client
 
 # 创建Tavily客户端对象
 tavily_client = TavilyClient(

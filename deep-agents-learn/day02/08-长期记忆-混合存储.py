@@ -4,9 +4,9 @@
   @Desc:长期记忆-混合存储
 """
 from deepagents import create_deep_agent
-from deepagents.backends import FilesystemBackend, StoreBackend, store, CompositeBackend
+from deepagents.backends import FilesystemBackend, StoreBackend, CompositeBackend
 from langgraph.store.memory import InMemoryStore
-from utils.llm_utils import get_llm_client
+from day02.utils.llm_utils import get_llm_client
 
 # 获取大模型实例
 llm = get_llm_client()
@@ -26,7 +26,7 @@ deep_agent = create_deep_agent(
     # 配置存储后端为混合存储
     backend=CompositeBackend(
         # 配置默认的存储方式为文件存储
-        default=FilesystemBackend(root_dir="../temp_data",virtual_mode=True),
+        default=FilesystemBackend(root_dir="temp_data", virtual_mode=True),
         # 对于内存存储配置了路由，当存储的路径以/memories开头时将存储到内存中
         routes={
             "/memories/": StoreBackend(namespace=lambda _rt: ("memories",)),

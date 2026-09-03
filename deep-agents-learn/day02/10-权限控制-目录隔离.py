@@ -5,7 +5,7 @@
 """
 from deepagents import create_deep_agent, FilesystemPermission
 from deepagents.backends import FilesystemBackend
-from utils.llm_utils import get_llm_client
+from day02.utils.llm_utils import get_llm_client
 
 # 获取大模型实例
 llm = get_llm_client()
@@ -18,7 +18,7 @@ deep_agent = create_deep_agent(
         你是一个高级智能助手
     """,
     # 配置存储后端为文件存储
-    backend=FilesystemBackend(root_dir="../temp_data", virtual_mode=True),
+    backend=FilesystemBackend(root_dir="temp_data", virtual_mode=True),
     # 配置工作目录的权限
     permissions=[
         FilesystemPermission(
