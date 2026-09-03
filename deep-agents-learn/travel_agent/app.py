@@ -6,10 +6,10 @@
 import asyncio
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
-from core.map_agent import map_agent
-from core.ticket_agent import ticket_agent
+from travel_agent.core.map_agent import map_agent
+from travel_agent.core.ticket_agent import ticket_agent
 from travel_agent.core.summary_agent import summary_agent
-from utils.llm_utils import get_llm_client
+from travel_agent.utils.llm_utils import get_llm_client
 
 MAIN_AGENT_PROMPT = """
 你是一名旅游规划总控智能体。
