@@ -3,9 +3,11 @@
   @Time:2026/9/3
   @Desc: 
 """
+import asyncio
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
 from travel_agent.core.map_agent import map_agent
+from travel_agent.core.ticket_agent import ticket_agent
 from travel_agent.utils.llm_utils import get_llm_client
 
 MAIN_AGENT_PROMPT = """
@@ -34,19 +36,22 @@ main_agent = create_deep_agent(
     model=llm,
     system_prompt=MAIN_AGENT_PROMPT,
     # 配置存储后端
-    backend=FilesystemBackend(root_dir=".",virtual_mode=True),
+    backend=FilesystemBackend(root_dir=".", virtual_mode=True),
     # 配置长期记忆
     memory=["/memory/AGENTS.md"],
     # 配置子智能体
-    subagents=[map_agent]
+    subagents=[ticket_agent]
 )
 
-result = main_agent.invoke(
-    input={
-        "messages": [
-            {"role": "user", "content": "帮我做一个北京到天津一日游的旅游规划"}
-        ]
-    }
-)
+async def main():
+    result = await main_agent.ainvoke(
+        input={
+            "messages": [
+                {"role": "user", "content": "帮我查询一下北京到濮阳东的高铁"}
+            ]
+        }
+    )
+    print(result['messages'][-1].content)
 
-print(result['messages'][-1].content)
+if __name__ == "__main__":
+    asyncio.run(main())

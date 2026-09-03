@@ -4,6 +4,7 @@
   @Desc:
 """
 import os
+from functools import lru_cache
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 
@@ -12,6 +13,7 @@ load_dotenv()
 
 
 # 定义一个返回大模型实例的函数
+@lru_cache(maxsize=1)
 def get_llm_client():
     return ChatOpenAI(
         model=os.getenv("ALIYUN_MODEL"),
