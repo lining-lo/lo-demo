@@ -6,9 +6,10 @@
 import asyncio
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
-from travel_agent.core.map_agent import map_agent
-from travel_agent.core.ticket_agent import ticket_agent
-from travel_agent.utils.llm_utils import get_llm_client
+from core.map_agent import map_agent
+from core.ticket_agent import ticket_agent
+from travel_agent.core.summary_agent import summary_agent
+from utils.llm_utils import get_llm_client
 
 MAIN_AGENT_PROMPT = """
 你是一名旅游规划总控智能体。
@@ -40,18 +41,61 @@ main_agent = create_deep_agent(
     # 配置长期记忆
     memory=["/memory/AGENTS.md"],
     # 配置子智能体
-    subagents=[ticket_agent]
+    subagents=[map_agent, ticket_agent, summary_agent]
 )
 
-async def main():
-    result = await main_agent.ainvoke(
+
+async def main(query: str):
+    # 执行
+    result = main_agent.astream(
         input={
             "messages": [
-                {"role": "user", "content": "帮我查询一下北京到濮阳东的高铁"}
+                {"role": "user", "content": query}
             ]
         }
     )
-    print(result['messages'][-1].content)
+    # 创建一个保存工具id和名字的字典
+    tool_dict = {}
+    # 遍历
+    async for chunk in result:
+        # print(chunk)
+        # 遍历获取每一个字典对象
+        for key, value in chunk.items():
+            # 判断是否是调用的模型
+            if key == "model":
+                # 获取AIMessage对象
+                ai_message = value["messages"][-1]
+                # 获取工具调用的列表
+                tool_calls = ai_message.tool_calls
+                # 判断是让调用工具还是最终输出结果
+                if tool_calls:
+                    # 遍历得到每一个工具
+                    for tool_call in tool_calls:
+                        # 获取工具的名称
+                        tool_name = tool_call["args"]["subagent_type"]
+                        # 获取调用工具时的参数
+                        args = tool_call["args"]["description"]
+                        # 获取工具的id
+                        tool_id = tool_call["id"]
+                        # 保存工具id和名字
+                        tool_dict[tool_id] = tool_name
+                        print(f"调用 【{tool_name}】 子智能体，传入的参数是：{args}")
+                else:
+                    # 获取最终的输出
+                    final_output = ai_message.content
+                    print(f"旅游规划助手最终的输出是：{final_output}")
+                    return final_output
+            elif key == "tools":
+                # 获取工具消息对象
+                tool_message = value["messages"][-1]
+                # 获取工具响应的内容
+                content = tool_message.content
+                # 获取工具的id
+                tool_id = tool_message.tool_call_id
+                # 从字典中获取工具的名称
+                tool_name = tool_dict[tool_id]
+                print(f"子智能体 【{tool_name}】 返回的结果是：{content}")
+
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(main("帮我做一个北京到天津一日游的旅游规划"))
