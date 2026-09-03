@@ -15,7 +15,7 @@ deep_agent = create_deep_agent(
     model=llm,
     system_prompt="你是一个高级智能助手，必须调用技能回答用户的问题",
     # 配置存储后端
-    backend=FilesystemBackend(root_dir="../",virtual_mode=True),
+    backend=FilesystemBackend(root_dir=".",virtual_mode=True),
     # 配置加载的技能
     skills=["skills"]
 )
