@@ -1,6 +1,6 @@
 package com.demo.object;
 
-import com.demo.pojo.Student;
+import com.demo.pojo2.Student;
 
 import java.util.Random;
 

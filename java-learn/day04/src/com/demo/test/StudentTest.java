@@ -1,6 +1,6 @@
 package com.demo.test;
 
-import com.demo.pojo.Student;
+import com.demo.pojo2.Student;
 
 public class StudentTest {
     public static void main(String[] args) {
